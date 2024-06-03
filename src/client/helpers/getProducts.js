@@ -11,9 +11,12 @@ export default async function getProducts(url,errorMessage){
         }
 
         if(response.status === 200){
-            const {products} = await response.json();
+            
+            const products = await response.json();
+            //console.log(products.products);
+            //const {products} = await response.json();
             errorMessage.style.display = 'none';
-        return products;
+        return products.products;
         
         }
     } catch (error) {

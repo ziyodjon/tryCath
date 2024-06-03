@@ -4,6 +4,7 @@ export default async function drawProduct(productList,products){
         const productImage = document.createElement('img');
         const productName = document.createElement('h4');
         const productPrice = document.createElement('p');
+        
         productImage.src = product.image;
         productName.textContent = product.name;
         productPrice.textContent = product.price;

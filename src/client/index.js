@@ -7,7 +7,7 @@ const loader = document.getElementById('loader');
 const productList = document.getElementById('product-list');
 const errorMessage = document.querySelector('.error-message');
 
-const products = getProducts(url,errorMessage);
+const products = await getProducts(url,errorMessage);
 
 drawProduct(productList,products);
 
