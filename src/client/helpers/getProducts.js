@@ -1,17 +1,27 @@
-export default async function getProducts(url){
-    const response = await fetch(url);
+export default async function getProducts(url,errorMessage){
+    try {
+        const response = await fetch(url); 
+        
+        if (response.status === 404) {
+            throw new Error('Продукты не найдены');
+        }
 
-    if(response.status === 404){
-        throw new Error('Товары не найдены');
+        if (response.status === 500) {
+            throw new Error('Проблема со стороны сервера');
+        }
+
+        if(response.status === 200){
+            const {products} = await response.json();
+            errorMessage.style.display = 'none';
+        return products;
+        
+        }
+    } catch (error) {
+        //console.error('Failed to fetch products:', error);
+        
+        errorMessage.textContent = error.message;
+        errorMessage.style.display = 'block';
+        return [];
     }
 
-    if(response.status === 500){
-        throw new Error('Что-то не так с сервером');
-    }
-
-    if(response.status === 200){
-        return await response.json();
-    }
-
-    
 }
