@@ -1,5 +1,5 @@
-export default async function getProducts(url,errorMessage){
-    try {
+export default async function getProducts(url){
+   
         const response = await fetch(url); 
         
         if (response.status === 404) {
@@ -10,21 +10,14 @@ export default async function getProducts(url,errorMessage){
             throw new Error('Проблема со стороны сервера');
         }
 
-        if(response.status === 200){
-            
-            const products = await response.json();
-            //console.log(products.products);
-            //const {products} = await response.json();
-            errorMessage.style.display = 'none';
-        return products.products;
-        
+        const body = await response.text();
+
+        if(!body){
+            throw new Error('Статус 200 но данные не найдены');
         }
-    } catch (error) {
-        //console.error('Failed to fetch products:', error);
+
+        const products = JSON.parse(body);
         
-        errorMessage.textContent = error.message;
-        errorMessage.style.display = 'block';
-        return [];
-    }
+        return products.products;
 
 }
