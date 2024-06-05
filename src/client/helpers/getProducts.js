@@ -1,3 +1,5 @@
+let count = 0;
+
 export default async function getProducts(url){
    
         const response = await fetch(url); 
@@ -7,14 +9,17 @@ export default async function getProducts(url){
         }
 
         if (response.status === 500) {
+
+            count++;
+
+            if(count < 3){
+                return await getProducts(url);
+            }
             throw new Error('Проблема со стороны сервера');
         }
 
         const body = await response.text();
 
-        if(!body){
-            throw new Error('Статус 200 но данные не найдены');
-        }
 
         const products = JSON.parse(body);
         
